@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoopVault — Register</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="./img/hoopvaultlogo.png">
+</head>
+
+<body data-page="register">
+  <div class="container">
+    <div class="auth-brand">
+      <img class="auth-logo" src="./img/hoopvaultlogo.png" alt="HoopVault logo">
+      <h1>HoopVault</h1>
+    </div>
+    <p class="subtitle">Create your account</p>
+    <div class="error" id="errorMsg"></div>
+    <div class="success" id="successMsg"></div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Choose a username" />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Choose a password" />
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm your password" />
+    </div>
+    <button onclick="register()">Register</button>
+    <div class="register-link">
+      Already have an account? <a href="/login.html">Login here</a>
+    </div>
+  </div>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>

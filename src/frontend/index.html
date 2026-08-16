@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoopVault</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="./img/hoopvaultlogo.png">
+</head>
+
+<body data-page="game">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">🏀 HoopVault</span>
+      <span class="username" id="headerUsername"></span>
+    </div>
+    <div class="header-right">
+      <span class="coins">💰 <span id="headerCoins">0</span></span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <!-- Side Nav -->
+    <nav class="side-nav">
+      <button class="nav-btn active" data-tab="home" onclick="switchTab('home', this)">
+        <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
+      </button>
+      <button class="nav-btn" data-tab="store" onclick="switchTab('store', this)">
+        <span class="nav-icon">🎴</span><span class="nav-label">Store</span>
+      </button>
+      <button class="nav-btn" data-tab="collection" onclick="switchTab('collection', this)">
+        <span class="nav-icon">📚</span><span class="nav-label">Collection</span>
+      </button>
+      <button class="nav-btn" data-tab="mypacks" onclick="switchTab('mypacks', this)">
+        <span class="nav-icon">🎁</span><span class="nav-label">My Packs</span>
+      </button>
+      <button class="nav-btn" data-tab="achievements" onclick="switchTab('achievements', this)">
+        <span class="nav-icon">🏆<span class="achievement-dot" id="achievementDot" hidden></span></span><span class="nav-label">Achievements</span>
+      </button>
+    </nav>
+
+    <main class="main-content">
+
+      <!-- Home / Dashboard Tab -->
+      <div class="tab-content active" id="tab-home">
+        <div class="dashboard-grid">
+
+          <div class="dashboard-tile dashboard-promo" onclick="goToTab('store')">
+            <div class="dashboard-tile-label">Featured</div>
+            <div class="dashboard-promo-name" id="dashPromoName">Legend Pack</div>
+            <div class="dashboard-promo-cost" id="dashPromoCost"></div>
+            <div class="dashboard-tile-cta">Go to Store →</div>
+          </div>
+
+          <div class="dashboard-tile dashboard-store-tile" onclick="goToTab('store')">
+            <div class="dashboard-tile-label">Pack Store</div>
+            <div class="dashboard-tile-icon">🎴</div>
+            <div class="dashboard-tile-title">Open Packs</div>
+            <div class="dashboard-tile-cta">Browse Store →</div>
+          </div>
+
+          <div class="dashboard-tile" onclick="goToTab('mypacks')">
+            <div class="dashboard-tile-label">Free Packs</div>
+            <div class="dashboard-tile-icon">🎁</div>
+            <div class="dashboard-tile-title" id="dashMyPacksCount">0 available</div>
+          </div>
+
+          <div class="dashboard-tile" onclick="goToTab('collection')">
+            <div class="dashboard-tile-label">My Cards</div>
+            <div class="dashboard-tile-icon">📚</div>
+            <div class="dashboard-tile-title" id="dashCollectionCount">0 cards</div>
+          </div>
+
+          <div class="dashboard-tile" onclick="goToTab('achievements')">
+            <div class="dashboard-tile-label">Achievements</div>
+            <div class="dashboard-tile-icon">🏆</div>
+            <div class="dashboard-tile-title" id="dashAchievementsCount">0 to claim</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Store Tab -->
+      <div class="tab-content" id="tab-store">
+        <div class="tab-header">
+          <h2>Pack Store</h2>
+        </div>
+        <div class="pack-grid" id="packGrid"></div>
+      </div>
+
+      <!-- My Packs Tab -->
+      <div class="tab-content" id="tab-mypacks">
+        <div class="tab-header">
+          <h2>My Packs</h2>
+        </div>
+        <div class="pack-grid" id="myPackGrid">
+          <p class="empty-msg">No reward packs at the moment.</p>
+        </div>
+      </div>
+
+      <!-- Collection Tab -->
+      <div class="tab-content" id="tab-collection">
+        <div class="tab-header">
+          <h2>My Collection</h2>
+          <div class="filters">
+            <select id="filterRarity" onchange="loadCollection()">
+              <option value="">All Rarities</option>
+              <option value="Gold">Gold</option>
+              <option value="Emerald">Emerald</option>
+              <option value="Sapphire">Sapphire</option>
+              <option value="Ruby">Ruby</option>
+              <option value="Amethyst">Amethyst</option>
+              <option value="Diamond">Diamond</option>
+              <option value="Pink Diamond">Pink Diamond</option>
+              <option value="Galaxy Opal">Galaxy Opal</option>
+              <option value="Dark Matter">Dark Matter</option>
+            </select>
+
+            <select id="filterPosition" onchange="loadCollection()">
+              <option value="">All Positions</option>
+              <option value="PG">PG</option>
+              <option value="SG">SG</option>
+              <option value="SF">SF</option>
+              <option value="PF">PF</option>
+              <option value="C">C</option>
+            </select>
+
+            <select id="sortOrder" onchange="loadCollection()">
+              <option value="">No Sort</option>
+              <option value="desc">Highest Rating</option>
+              <option value="asc">Lowest Rating</option>
+            </select>
+
+            <button class="sell-all-btn" onclick="sellAll()">Sell All</button>
+          </div>
+        </div>
+
+        <div class="card-grid" id="collectionGrid">
+          <p class="empty-msg">No cards yet. Open some packs!</p>
+        </div>
+
+        <section class="ultimate-collection">
+          <div class="ultimate-collection-header">
+            <div>
+              <h3>Ultimate Collection</h3>
+              <p>Cards you have discovered stay here, even after they are sold.</p>
+            </div>
+            <span class="ultimate-progress" id="ultimateProgress">0 / 0 collected</span>
+          </div>
+          <div class="ultimate-card-grid" id="ultimateCollectionGrid"></div>
+        </section>
+      </div>
+
+      <!-- Achievements Tab -->
+      <div class="tab-content" id="tab-achievements">
+        <div class="tab-header">
+          <h2>Achievements</h2>
+        </div>
+        <div class="achievement-list" id="achievementList"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="achievement-toast" id="achievementToast" role="status" aria-live="polite"></div>
+
+  <!-- Pack Opening Fullscreen Overlay -->
+  <div class="pack-overlay" id="packOverlay">
+    <div class="pack-opening-title" id="overlayTitle">Opening Pack</div>
+    <div class="batch-progress" id="batchProgress" style="display:none"></div>
+
+    <div class="cards-batch-wrapper" id="cardsBatchWrapper" style="display:none">
+      <div class="cards-batch" id="cardsBatch"></div>
+    </div>
+
+    <div class="reveal-coins-msg" id="revealCoinsMsg"></div>
+
+    <div class="overlay-btn-group">
+      <button class="overlay-close-btn" id="overlayFlipAllBtn" style="display:none"
+        onclick="flipAllCards()">Flip All</button>
+      <button class="overlay-close-btn" id="overlayNextBatchBtn" style="display:none"
+        onclick="nextBatch()">Next</button>
+      <button class="overlay-close-btn" id="overlayCloseBtn" style="display:none"
+        onclick="closeOverlay()">Continue</button>
+    </div>
+  </div>
+
+  <!-- Custom Alert -->
+  <div class="custom-modal-overlay" id="alertOverlay">
+    <div class="custom-modal">
+      <p class="custom-modal-msg" id="alertMsg"></p>
+      <div class="custom-modal-actions">
+        <button class="custom-modal-btn confirm" onclick="closeAlert()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirm -->
+  <div class="custom-modal-overlay" id="confirmOverlay">
+    <div class="custom-modal">
+      <p class="custom-modal-msg" id="confirmMsg"></p>
+      <div class="custom-modal-actions">
+        <button class="custom-modal-btn cancel" onclick="closeConfirm(false)">Cancel</button>
+        <button class="custom-modal-btn confirm" onclick="closeConfirm(true)">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Quantity Selector -->
+  <div class="custom-modal-overlay" id="quantityOverlay">
+    <div class="custom-modal">
+      <p class="custom-modal-msg" id="quantityMsg"></p>
+
+      <div class="quantity-selector">
+        <button class="qty-btn" onclick="changeQuantity(-1)">−</button>
+        <span class="qty-value" id="quantityValue">1</span>
+        <button class="qty-btn" onclick="changeQuantity(1)">+</button>
+      </div>
+
+      <p class="qty-max" id="quantityMax"></p>
+
+      <div class="custom-modal-actions">
+        <button class="custom-modal-btn cancel" onclick="closeQuantity(false)">Cancel</button>
+        <button class="custom-modal-btn confirm" onclick="closeQuantity(true)">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
